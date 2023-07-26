@@ -26,9 +26,9 @@ form.addEventListener("submit", (event) => {
 
     //User Stories - Dividing numbers result in a whole number & Dividing numbers result in a decimal number
     result.innerText = `${Math.floor(dividend / divider)}`;
-  } catch (e) {
+  } catch(error) {
     //Console log errors
-    console.error(e);
-    result.innerHTML = e;
+    console.error(error);
+    result.innerHTML = error;
   }
 });
