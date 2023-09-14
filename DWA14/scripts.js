@@ -107,7 +107,7 @@ class FullTallyApp extends LitElement {
   render() {
     return html`
       <header>
-        <h1>Tally Counter</h1>
+        <h1>Tally count</h1>
       </header>
 
       <input id="counter-value" readonly value="${this.count}" />
@@ -132,6 +132,7 @@ class FullTallyApp extends LitElement {
 
         <p>You have just reset the Tally Count back to 0</p>
       </dialog>
+      <footer>this is a test project for learning javascript</footer>
     `;
   }
 }
