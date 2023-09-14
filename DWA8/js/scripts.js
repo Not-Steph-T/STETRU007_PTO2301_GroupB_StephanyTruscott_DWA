@@ -42,7 +42,7 @@ const createOption = (value, name) => {
   return element;
 };
 
-//starting page
+//initialize the page with initial data and event listeners
 const startingPage = () => {
   const starting = document.createDocumentFragment();
   const genreHtml = document.createDocumentFragment();
@@ -147,7 +147,7 @@ const startingPage = () => {
   document.querySelector("[data-search-overlay]").open = false;
 };
 
-//settings function
+//settings form submission
 const handleSettings = (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
@@ -159,7 +159,7 @@ const handleSettings = (event) => {
   document.querySelector("[data-settings-overlay]").open = false;
 };
 
-//search function
+//search form submission
 const handleSearch = (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
@@ -220,6 +220,7 @@ const handleSearch = (event) => {
   document.querySelector("[data-search-overlay]").open = false;
 };
 
+//function to handle "Show More" button click
 const showMore = () => {
   const fragment = document.createDocumentFragment();
 
@@ -235,6 +236,7 @@ const showMore = () => {
   page += 1;
 };
 
+//function to handle book item click
 const handleBook = (event) => {
   const target = event.target.closest("[data-preview]");
   if (target) {
@@ -245,6 +247,7 @@ const handleBook = (event) => {
   }
 };
 
+//function to create a button element
 const createPreviewButton = (id, image, title, author) => {
   const element = document.createElement("button");
   element.classList = "preview";
@@ -265,6 +268,7 @@ const createPreviewButton = (id, image, title, author) => {
   return element;
 };
 
+//function to show book details
 const showBookPreview = (book) => {
   const listActive = document.querySelector("[data-list-active]");
   listActive.open = true;
