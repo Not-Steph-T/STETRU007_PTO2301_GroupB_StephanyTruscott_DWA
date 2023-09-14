@@ -1,47 +1,59 @@
-const MAX_NUMBER = 15;
-const MIN_NUMBER = -5;
-const STEP_AMOUNT = 5;
+import { add, overlay, reset, subtract } from "./action.js";
+import { store } from "./store.js";
 
-const number = document.querySelector('[data-key="number"]');
-const subtract = document.querySelector('[data-key="subtract"]');
-const add = document.querySelector('[data-key="add"]');
-const reset = document.querySelector("[data-key=reset]");
+/**
+ * @type {number} 20 max number
+ * @type {number} -20 min number
+ */
+const MAX_NUMBER = 20;
+const MIN_NUMBER = -20;
 
-// function for substraction
-const subtractHandler = () => {
-  const newValue = parseInt(number.value) - 1;
-  number.value = newValue;
-
-  if (add.disabled === true) {
-    add.disabled = false;
-  }
-  if (newValue <= MIN_NUMBER) {
-    subtract.disabled = true;
-  }
-  console.log(newValue);
+/**
+ * html elements
+ * @type {object}
+ */
+const keys = {
+  add: document.querySelector('[data-key = "add"]'),
+  subtract: document.querySelector('[data-key = "subtract"]'),
+  input: document.querySelector('[data-key = "number"]'),
+  reset: document.querySelector('[data-key = "reset"]'),
+  overlay: document.querySelector("[data-reset-overlay]"),
 };
-// function for addition
+
+/**
+ * updates the user interface based on the store state
+ */
+const updateUI = () => {
+  const { value } = store.getState();
+  keys.input.value = value;
+
+  keys.add.style.color = value >= MAX_NUMBER ? "red" : "";
+  keys.add.disabled = value >= MAX_NUMBER;
+
+  keys.subtract.style.color = value <= MIN_NUMBER ? "red" : "";
+  keys.subtract.disabled = value <= MIN_NUMBER;
+  keys.reset === true ? keys.overlay.show() : keys.reset;
+};
 
 const addHandler = () => {
-  const newValue = parseInt(number.value) + 1;
-  number.value = newValue;
-
-  if (subtract.disabled === true) {
-    subtract.disabled = false;
-  }
-  if (newValue >= MAX_NUMBER) {
-    add.disabled = true;
-  }
-  console.log(newValue);
+  store.dispatch(add());
 };
 
-subtract.addEventListener("click", subtractHandler);
-add.addEventListener("click", addHandler);
+const subtractHandler = () => {
+  store.dispatch(subtract());
+};
 
-// reset button
+const resetHandler = () => {
+  store.dispatch(reset());
+  store.dispatch(overlay());
+};
 
-function addReset() {
-  alert("Are you sure you want to reset");
-  number.value = 0;
-}
-reset.addEventListener("click", addReset);
+// Subscribe to store changes and update UI
+store.subscribe(updateUI);
+
+keys.add.addEventListener("click", addHandler);
+keys.subtract.addEventListener("click", subtractHandler);
+keys.reset.addEventListener("click", resetHandler);
+
+// Initialize UI
+updateUI();
